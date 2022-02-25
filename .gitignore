@@ -1,4 +1,2 @@
 __pycache__/
-
-# Data files
-*.csv
+.ipynb_checkpoints/
