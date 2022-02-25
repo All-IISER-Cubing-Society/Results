@@ -5,6 +5,17 @@ import pandas as pd
 import plotly.express as px
 from PIL import Image
 
+favicon = Image.open("media/favicon.ico")
+st.set_page_config(
+    page_title = "AICS Results",
+    page_icon = favicon,
+    menu_items={
+         'Get Help': 'https://github.com/All-IISER-Cubing-Society/Results',
+         'Report a bug': "https://github.com/All-IISER-Cubing-Society/Results/issues",
+         'About': "AICS Results is a Streamlit app to visualize data of weekly event results. Contact Purva at AICS for any issues or help."
+     }
+)
+
 results = "results/"
 
 @st.cache
