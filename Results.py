@@ -92,3 +92,9 @@ else:
     st.write("Please select some events.")
 
 st.write("If on mobile, select name from sidebar on top left.")
+
+st.header("Event Participation")
+participation_df = df['Event'].value_counts().reset_index()
+participation_df.columns = ['Event', 'Count']
+participation_df = participation_df.sort_values('Count', ascending=False)
+st.dataframe(participation_df)
