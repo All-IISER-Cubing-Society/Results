@@ -61,7 +61,7 @@ st.sidebar.title("AICS - Results")
 
 category = st.sidebar.radio(
     'Select Category',
-    ('Individual Results', 'Best Results'))
+    ('Individual Results', 'Best Results', 'Institute-wise Results', 'Institute Leaderboard'))
 
 
 if category == 'Individual Results':
@@ -123,6 +123,54 @@ elif category == 'Best Results':
     st.header(event)
     st.write(df)
 
+elif category == "Institute-wise Results":
+    institutes = sorted(cdf['Institute'].unique())
+    
+    institute = st.sidebar.selectbox('Institute', institutes)
+    idf = cdf[cdf['Institute'] == institute]
+    
+    st.header("Institute-wise Results")
+    st.subheader(institute)
+    
+    events = sorted(idf['Event'].unique())
+    
+    event = st.selectbox('Eevnt', events)
+    
+    df = idf[idf['Event'] == event]
+    
+    # First sort by Result, then do a stable sort on Name
+    df = df.sort_values('Result').sort_values('Name', kind='stable')
+    
+    # Drop duplicates, then sort by result again
+    df = df.loc[df['Name'] != df['Name'].shift()].sort_values('Result')
+    
+    df['Result'] = df['Result'].astype(str)
+    df['Date'] = df['Date'].astype(str)
+    df = df.reset_index().drop(columns=['index', 'Event'])
+    
+    st.write(df)
+
+elif category == "Institute Leaderboard":
+    events = sorted(cdf['Event'].unique())
+    
+    event = st.sidebar.selectbox('Event', events)
+    
+    df = cdf[cdf['Event'] == event]
+    
+    # First sort by Result, then do a stable sort on Institute
+    df = df.sort_values('Result').sort_values('Institute', kind='stable')
+    
+    # Drop duplicates, then sort by result again
+    df = df.loc[df['Institute'] != df['Institute'].shift()].sort_values('Result')
+    
+    df['Result'] = df['Result'].astype(str)
+    df['Date'] = df['Date'].astype(str)
+    df = df.reset_index().drop(columns=['index', 'Event'])
+    
+    st.header("Institute Leaderboard")
+    st.subheader(event)
+    st.write(df)
+    
 image = Image.open("media/AICS-Logo-Dark.png")
 st.sidebar.image(image)
 st.sidebar.markdown("[Website](https://all-iiser-cubing-society.github.io/#/) | [Instagram](https://www.instagram.com/all.iiser.cubing.society/) | [YouTube](https://www.youtube.com/channel/UCXOIh4FS48Dwy3BC9_FhprA)")
