@@ -45,7 +45,7 @@ def load_data():
 
 
 @st.cache
-def load_event_data(data, name, events):
+def load_event_data(data, events):
     frames = []
     for event in events:
         df = data[data['Event'] == event]
@@ -85,7 +85,7 @@ if category == 'Individual Results':
     selected_events = st.multiselect('Events', events, '3x3')
 
     if len(selected_events) > 0:
-        selected_events_df = load_event_data(df, name, selected_events)
+        selected_events_df = load_event_data(df, selected_events)
         st.write("The graph is interactive. Feel free to play around with it.")
         if 'FMC' in selected_events and len(selected_events) > 1:
             st.write("FMC results are in Moves, and others in seconds. It would be better to plot FMC as a single graph.")
