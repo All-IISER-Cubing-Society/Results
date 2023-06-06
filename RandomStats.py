@@ -75,3 +75,27 @@ dict(sorted(max_streak.items(), key=lambda item: item[1], reverse=True))
 
     
 # %%
+# Most improvement
+
+print("Largest improvement in 3x3")
+d3 = data[data['Event'] == '3x3']
+
+names = d3['Name'].unique()
+
+improvement = dict()
+
+for name in names:
+    res = d3[d3['Name'] == name]['Result']
+    improvement[name] = res.max() - res.min()
+    
+improv_sorted = dict(sorted(improvement.items(), key=lambda item: item[1], reverse=True))
+improv_sorted
+
+# %%
+for name in list(improv_sorted.keys())[:3]:
+    print(name)
+    res = d3[d3['Name'] == name]['Result']
+    print(res.max())
+    print(res.min())
+    print()
+# %%
